@@ -3,7 +3,9 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+const md5 = require('blueimp-md5')
+const mongoose = require('mongoose')
+var bodyParser = require('body-parser');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
@@ -18,7 +20,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
@@ -37,5 +40,17 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-app.listen('3001',()=>{console.log('success')})
+//app.listen('3001',()=>{console.log('success')})
+// 通过mongoose连接数据库
+mongoose.connect('mongodb://localhost/admin_db', {useNewUrlParser: true})
+  .then(() => {
+    console.log('连接数据库成功!!!')
+    // 只有当连接上数据库后才去启动服务器
+    app.listen('5000', () => {
+      console.log('服务器启动成功, 请访问: http://localhost:5000')
+    })
+  })
+  .catch(error => {
+    console.error('连接数据库失败', error)
+  })
 module.exports = app;
