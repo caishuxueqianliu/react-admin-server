@@ -14,7 +14,7 @@ router.get('/', function(req, res, next) {
 //login
 router.post('/login', (req, res) => {
   const {username,password} = req.body.values
-
+console.log(req.body.values)
   // 根据username和password查询数据库users, 如果没有, 返回提示错误的信息, 如果有, 返回登陆成功信息(包含user)
   UserModel.findOne({username, password: md5(password)})
     .then(user => {
@@ -31,7 +31,7 @@ router.post('/login', (req, res) => {
         // } else {
         //   user._doc.role = {menus: []}
         //   // 返回登陆成功信息(包含user)
-        //   res.send({status: 0, data: user})
+         res.send({status: 0, data: user})
         // }
 
       } else {// 登陆失败
