@@ -16,7 +16,7 @@ const categoryChildrenSchema = new mongoose.Schema({
 })
 // 3. 定义Model(与集合对应, 可以操作集合)
 const CategoryModel = mongoose.model('categorys', categorySchema)
-CategoryModel.find().then(category=> {
+CategoryModel.findOne({username: 'admin'}).then(category=> {
   if(!category) {
     CategoryModel.create({name: '食品', parentId:'0',_id: "5c2ed631f352726338607046"})
      
