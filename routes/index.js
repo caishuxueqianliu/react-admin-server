@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
-
+const path = require('path');
+const fs = require('fs');
+var formidable = require('../node_modules/formidable');
 const md5 = require('blueimp-md5')
 const CategoryModel = require('../models/CategoryModel')
 const UserModel = require('../models/UserModel')
@@ -11,7 +13,37 @@ router.get('/', function(req, res, next) {
 });
 
 
-
+router.post('/image/upload',(req,res)=>{
+ let form = new formidable.IncomingForm();
+     form.uploadDir ="../upload" ;
+      form.keepExtensions = true;//保存扩展名
+    form.maxFieldsSize = 20 * 1024 * 1024;//上传文件的最大大小
+    // form.on('field',(field,value)=>{
+    //   //console.log(field);
+    //     //console.log(value);
+    // });
+    // form.on('file',(name,file)=>{
+    //    // console.log(name);
+    //    // console.log(file);
+    // });
+    // form.on('end',()=>{
+    //     res.end('upload complete');
+    // })
+    form.parse(req,(err,fields,files)=>{
+        //重命名
+     
+       // let ran = parseInt(Math.random() * 89999 + 10000);
+        let extname = path.extname(files.file.name);
+        let oldpath=__dirname+'/'+files.file.path
+        let newpath = __dirname + '/upload/' +files.file.name+ extname;
+        fs.rename(oldpath, newpath,function(err){
+            if(err){
+                throw Error("改名失败");
+            }
+        });
+    });
+   res.send(1)
+})
 //login
 router.post('/login', (req, res) => {
   const {username,password} = req.body.values
@@ -318,4 +350,16 @@ router.post('/product/updateStatus',async (req,res,next)=>{
         })
     });
 });
+
+
+
+
+
+
+
+
+
+
+
+
 module.exports = router;

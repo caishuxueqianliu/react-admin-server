@@ -24,7 +24,7 @@ CategoryModel.findOne({name: '食品'}).then(category=> {
                         parentId:'5c2ed631f352726338607046'},
 
                    {     name:'火箭',
-                        parentId:5c2ed631f3527263386070466',
+                        parentId:'5c2ed631f352726338607046',
                        
 })
      
