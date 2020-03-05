@@ -16,9 +16,17 @@ const categoryChildrenSchema = new mongoose.Schema({
 })
 // 3. 定义Model(与集合对应, 可以操作集合)
 const CategoryModel = mongoose.model('categorys', categorySchema)
-CategoryModel.findOne({username: 'admin'}).then(category=> {
+CategoryModel.findOne({name: '食品'}).then(category=> {
   if(!category) {
-    CategoryModel.create({name: '食品', parentId:'0',_id: "5c2ed631f352726338607046"})
+    CategoryModel.create(
+{name: '食品', parentId:'0',_id: "5c2ed631f352726338607046"},
+  {                      name:'飞机',
+                        parentId:'5c2ed631f352726338607046'},
+
+                   {     name:'火箭',
+                        parentId:5c2ed631f3527263386070466',
+                       
+})
      
             .then(category => {
               console.log('初始化categorys')
@@ -26,21 +34,9 @@ CategoryModel.findOne({username: 'admin'}).then(category=> {
 
 
 
-  CategoryModel.create([{
-                        name:'飞机',
-                        parentId:'5c2ed647f352726338607047',
-                        
-},
-{
-                        name:'火箭',
-                        parentId:'5c2ed647f352726338607047',
-                       
-}])
-     
-            .then(category => {
-              console.log('初始化二级categorys')
-            }).catch(err=>{console.log('categorys已存在')})
 
+     
+            
   }
 
 

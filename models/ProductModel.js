@@ -18,15 +18,15 @@ const productSchema = new mongoose.Schema({
 
 // 3. 定义Model(与集合对应, 可以操作集合)
 const ProductModel = mongoose.model('products', productSchema)
-ProductModel.find().then(res=> {
+ProductModel.findOne({"name": "联想ThinkPad 翼4809"}).then(res=> {
   if(!res) {
     ProductModel.create(
 
     	  {
                 "status": 1,
                 "imgs": [
-                    "image-1560998261788",
-                    'image-1561070411318'
+                    "image-1560998261788.jpg",
+                    "image-1561070411318.jpg"
                 ],
                 "_id": "5ca9e05db49ef916541160cd",
                 "name": "联想ThinkPad 翼4809",
@@ -40,8 +40,8 @@ ProductModel.find().then(res=> {
             {
                 "status": 1,
                 "imgs": [
-                     "image-1560998261788",
-                    'image-1561070411318'
+                     "image-1560998261788.jpg",
+                    "image-1561070411318.jpg"
                 ],
                 "_id": "5ca9e414b49ef916541160ce",
                 "name": "华硕(ASUS) 飞行堡垒",
@@ -55,8 +55,8 @@ ProductModel.find().then(res=> {
             {
                 "status": 2,
                 "imgs": [
-                     "image-1560998261788",
-                    'image-1561070411318'
+                     "image-1560998261788.jpg",
+                    "image-1561070411318.jpg"
                 ],
                 "_id": "5ca9e4b7b49ef916541160cf",
                 "name": "你不知道的JS（上卷）",
@@ -70,8 +70,8 @@ ProductModel.find().then(res=> {
             {
                 "status": 2,
                 "imgs": [
-                     "image-1560998261788",
-                    'image-1561070411318'
+                     "image-1560998261788.jpg",
+                    "image-1561070411318.jpg"
                 ],
                 "_id": "5ca9e5bbb49ef916541160d0",
                 "name": "美的(Midea) 213升-BCD-213TM",
@@ -85,8 +85,8 @@ ProductModel.find().then(res=> {
             {
                 "status": 1,
                 "imgs": [
-                     "image-1560998261788",
-                    'image-1561070411318'
+                     "image-1560998261788.jpg",
+                    "image-1561070411318.jpg"
                 ],
                 "_id": "5ca9e653b49ef916541160d1",
                 "name": "美的（Midea）KFR-35GW/WDAA3",

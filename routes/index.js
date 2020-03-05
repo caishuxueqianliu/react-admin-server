@@ -285,11 +285,13 @@ router.post('/product/update',async (req,res,next)=>{
     let {_id,name,desc,price,imgs,detail,pCategoryId,categoryId} = req.body;
     await  ProductModel.update(_id,{name,desc,price,imgs,detail,pCategoryId,categoryId}).then(val=>{
         return res.send({
-            "status": 0
+            "status": 0,
+ "data":val
         })
     }).catch(err=>{
         return res.send({
-            "status": 1
+            "status": 1,
+"msg":err.message
         })
     });
 });
@@ -301,14 +303,18 @@ router.post('/product/update',async (req,res,next)=>{
 // |status       |Y       |number   |商品状态值
 // */
 router.post('/product/updateStatus',async (req,res,next)=>{
-    let {productId,status} = reqbody;
-    await  ProductModel.update({_id:productId},{$set:{status}}).then(val=>{
+    let {productId,status} = req.body;
+   await  ProductModel.update({_id:productId},{$set:{status}}).then(val=>{
+ //await  ProductModel.update({_id:productId},{status}).then(val=>{
         return res.send({
-            "status": 0
+            "status": 0,
+             "data":val
+                 
         })
     }).catch(err=>{
         return res.send({
-            "status": 1
+            "status": 1,
+"msg":err.message
         })
     });
 });
