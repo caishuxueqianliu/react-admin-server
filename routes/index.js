@@ -14,35 +14,41 @@ router.get('/', function(req, res, next) {
 
 
 router.post('/image/upload',(req,res)=>{
- let form = new formidable.IncomingForm();
-     form.uploadDir ="../upload" ;
-      form.keepExtensions = true;//保存扩展名
-    form.maxFieldsSize = 20 * 1024 * 1024;//上传文件的最大大小
-    // form.on('field',(field,value)=>{
-    //   //console.log(field);
-    //     //console.log(value);
-    // });
-    // form.on('file',(name,file)=>{
-    //    // console.log(name);
-    //    // console.log(file);
-    // });
-    // form.on('end',()=>{
-    //     res.end('upload complete');
-    // })
+   let form = new formidable.IncomingForm();
+    
+     //设置编辑
+    form.encoding = 'utf-8';
+    //设置文件存储路径
+    form.uploadDir = "./public/uploads";
+    //保留后缀
+    form.keepExtensions = true;
+    //设置单文件大小限制    
+    form.maxFieldsSize = 2 * 1024 * 1024;
+    //form.maxFields = 1000;  设置所以文件的大小总和
+
     form.parse(req,(err,fields,files)=>{
-        //重命名
-     
-       // let ran = parseInt(Math.random() * 89999 + 10000);
-        let extname = path.extname(files.file.name);
-        let oldpath=__dirname+'/'+files.file.path
-        let newpath = __dirname + '/upload/' +files.file.name+ extname;
-        fs.rename(oldpath, newpath,function(err){
-            if(err){
-                throw Error("改名失败");
-            }
-        });
+       
+            var x='img-'
+            var t = (new Date()).getTime();
+            //生成随机数
+            var ran = parseInt(Math.random() * 8999 +10000);
+            //拿到扩展名
+            var extname = path.extname(files.file.name);
+
+       let newfilename=t+ran+extname;
+
+      let oldpath=files.file.path
+      let newpath = 'public/uploads/' +x+newfilename;
+          console.log(oldpath)
+       console.log(newpath)
+      fs.rename(oldpath,newpath,function(err){
+           if(err){
+              console.error("改名失败"+err);
+        }
+       res.send(files)
+      });
     });
-   res.send(1)
+
 })
 //login
 router.post('/login', (req, res) => {
