@@ -12,44 +12,66 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-
 router.post('/image/upload',(req,res)=>{
    let form = new formidable.IncomingForm();
-    
+   
      //设置编辑
     form.encoding = 'utf-8';
     //设置文件存储路径
-    form.uploadDir = "./public/uploads";
+    form.uploadDir = "./public/upload";
     //保留后缀
     form.keepExtensions = true;
     //设置单文件大小限制    
-    form.maxFieldsSize = 2 * 1024 * 1024;
+    //form.maxFieldsSize = 2 * 1024 * 1024;
     //form.maxFields = 1000;  设置所以文件的大小总和
 
     form.parse(req,(err,fields,files)=>{
-       
-            var x='img-'
-            var t = (new Date()).getTime();
-            //生成随机数
+ // console.log(files)
+ //console.log(new Date())
+ //console.log(Date.now())
+        var x='img-'
+           var t = (new Date()).getTime();
+ //            //生成随机数
             var ran = parseInt(Math.random() * 8999 +10000);
-            //拿到扩展名
-            var extname = path.extname(files.file.name);
+ //            //拿到扩展名
+        var extname = path.extname(files.image.name);
 
-       let newfilename=t+ran+extname;
+    let newfilename=t+ran;
 
-      let oldpath=files.file.path
-      let newpath = 'public/uploads/' +x+newfilename;
-          console.log(oldpath)
-       console.log(newpath)
+     let oldpath=files.image.path
+      let newpath = 'public/upload/'+ x+newfilename+extname;
+ //          console.log(oldpath)
+ //       console.log(newpath)
       fs.rename(oldpath,newpath,function(err){
            if(err){
               console.error("改名失败"+err);
         }
-       res.send(files)
-      });
+     res.send(files)
+  })
     });
 
 })
+
+  // 删除图片
+  router.post('/img/delete', (req, res) => {
+    const {name} = req.body
+    fs.unlink(path.join("./public/upload", name), (err) => {
+      if (err) {
+        console.log(err)
+        res.send({
+          status: 1,
+          msg: '删除文件失败'
+        })
+      } else {
+        res.send({
+          status: 0
+        })
+      }
+    })
+  })
+
+
+
 //login
 router.post('/login', (req, res) => {
   const {username,password} = req.body.values
